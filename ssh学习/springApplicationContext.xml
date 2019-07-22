@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context.xsd
+                        http://www.springframework.org/schema/tx
+                        http://www.springframework.org/schema/tx/spring-tx.xsd
+                        http://www.springframework.org/schema/aop
+                        http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!--dataSource,c3p0数据源-->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="com.mysql.jdbc.Driver"></property>
+        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/springJDBC"></property>
+        <property name="user" value="root"></property>
+        <property name="password" value="123456"></property>
+    </bean>
+    <!--创建sessionFactory-->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+        <!--配置dataSource-->
+        <property name="dataSource" ref="dataSource"></property>
+
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.format_sql">true</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+            </props>
+        </property>
+        <!--hibernate的映射文件路径-->
+        <property name="mappingLocations" value="classpath:sshModel/*.hbm.xml"></property>
+    </bean>
+    <!--创建hibernate的模板-->
+    <bean id="hibernateTemp" class="org.springframework.orm.hibernate3.HibernateTemplate">
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <!--创建dao-->
+    <bean id="userDaoImpl" class="sshDao.impl.userDaoImpl">
+        <property name="hibernateTemplate" ref="hibernateTemp"></property>
+    </bean>
+    <!--创建service-->
+    <bean id="userService" class="sshService.impl.userServiceImpl">
+        <property name="userDao" ref="userDaoImpl"></property>
+    </bean>
+    <!--配置事务-->
+    <!--配置事务管理器-->
+    <bean id="txManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <!--配置dataSource-->
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <!--配置通知-->
+    <tx:advice id="txAdvice" transaction-manager="txManager">
+        <tx:attributes>
+            <tx:method name="registering"/>
+        </tx:attributes>
+    </tx:advice>
+    <!--把通知应用到切入点-->
+    <aop:config>
+        <aop:advisor advice-ref="txAdvice" pointcut="execution(* sshService.*.*(..))"></aop:advisor>
+    </aop:config>
+</beans>
