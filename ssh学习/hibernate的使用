@@ -7,13 +7,39 @@ import sshModel.User;
 @Repository
 public class userDaoImpl implements IUserDao {
     private HibernateTemplate hibernateTemplate;
-    //根据spring-hibernate-context来注入
+    //hibernateTemplate请看springApplicationContext
     public void setHibernateTemplate(HibernateTemplate hibernateTemplate) {
         this.hibernateTemplate = hibernateTemplate;
     }
 
+    //hibernate操作数据库除开平常用的save、update、delete、get，还可以通过createSQLQuery（）来自己写sql语句
     @Override
     public void add(User user) {
         hibernateTemplate.save(user);
+    }
+    @Test
+    public void testadd() {
+        // 事务具体内容
+        Student s = new Student(334, "桔子桑", "12646574", 26);
+        session.save(s);
+    }
+    @Test
+    public void testupdate() {
+        // 事务具体内容
+        Student s = (Student)session.get(Student.class, 1);
+        s.setAge(25);
+        session.update(s);
+    }
+    @Test
+    public void testdelete() {
+        // 事务具体内容
+        Student s = (Student)session.get(Student.class, 1);
+        session.delete(s);
+    }
+    @Test
+    public void testget() {
+        // 事务具体内容
+        Student s = (Student)session.get(Student.class, 1);
+        System.out.println(s);
     }
 }
