@@ -34,7 +34,7 @@ public class userDaoImpl implements IUserDao {
     @Test
     public void get() {
         // 事务具体内容
-        Student s = (Student)session.get(Student.class, 1);
+        Student s = (Student)session.get(Student.class, 1);//第一个参数是实体类的class，第二个是id值
         System.out.println(s);
     }
 }
