@@ -17,27 +17,22 @@ public class userDaoImpl implements IUserDao {
     public void add(User user) {
         hibernateTemplate.save(user);
     }
+
     @Test
-    public void testadd() {
-        // 事务具体内容
-        Student s = new Student(334, "桔子桑", "12646574", 26);
-        session.save(s);
-    }
-    @Test
-    public void testupdate() {
+    public void update() {
         // 事务具体内容
         Student s = (Student)session.get(Student.class, 1);
         s.setAge(25);
         session.update(s);
     }
     @Test
-    public void testdelete() {
+    public void delete() {
         // 事务具体内容
         Student s = (Student)session.get(Student.class, 1);
         session.delete(s);
     }
     @Test
-    public void testget() {
+    public void get() {
         // 事务具体内容
         Student s = (Student)session.get(Student.class, 1);
         System.out.println(s);
