@@ -48,3 +48,21 @@ export XMODIFIERS="@im=fcitx"
 
 #安装git客户端
 sudo yaourt GitKraken
+
+#安装 Apache
+sudo pacman -S apache
+#设置开机启动和重启 Apache 服务
+sudo systemctl enable httpd
+sudo systemctl restart httpd
+
+#安装 Mysql
+sudo pacman -S mysql
+#初始化MariaDB数据目录，没有这步 mysql 就不能用
+sudo mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
+#查看mysql状态
+sudo systemctl status mysqld
+#开机启动mysql服务
+sudo systemctl enable mysqld
+sudo systemctl start mysqld
+#设置mysql root用户密码
+sudo mysql_secure_installation
