@@ -1,0 +1,40 @@
+package sshDao.impl;
+
+import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.stereotype.Repository;
+import sshDao.IUserDao;
+import sshModel.User;
+@Repository
+public class userDaoImpl implements IUserDao {
+    private HibernateTemplate hibernateTemplate;
+    //hibernateTemplate请看springApplicationContext
+    public void setHibernateTemplate(HibernateTemplate hibernateTemplate) {
+        this.hibernateTemplate = hibernateTemplate;
+    }
+
+    //hibernate操作数据库除开平常用的save、update、delete、get，还可以通过createSQLQuery（）来自己写sql语句
+    @Override
+    public void add(User user) {
+        hibernateTemplate.save(user);
+    }
+
+    @Test
+    public void update() {
+        // 事务具体内容
+        Student s = (Student)session.get(Student.class, 1);
+        s.setAge(25);
+        session.update(s);
+    }
+    @Test
+    public void delete() {
+        // 事务具体内容
+        Student s = (Student)session.get(Student.class, 1);
+        session.delete(s);
+    }
+    @Test
+    public void get() {
+        // 事务具体内容
+        Student s = (Student)session.get(Student.class, 1);//第一个参数是实体类的class，第二个是id值
+        System.out.println(s);
+    }
+}

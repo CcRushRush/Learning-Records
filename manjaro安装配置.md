@@ -33,25 +33,25 @@ sudo pacman -Sy --noconfirm wqy-zenhei ttf-fireflysung
 echo -e "151.101.72.249 global-ssl.fastly.Net\n192.30.253.118 github.com"|sudo tee -a /etc/hosts
 ```
 
+
 ### 删除无用的软件(for kde)
 ```
 sudo pacman -R --noconfirm steam-manjaro libreoffice-fresh firefox
 ```
+
 
 ### 安装常用软件
 ```
 sudo pacman -Sy --noconfirm filezilla electronic-wechat fcitx-sogoupinyin pandoc shadowsocks google-chrome fish shadowsocks-libev wps-office create_ap pavucontrol nutstore seahorse virtualbox-guest-iso fcitx-im fcitx-configtool fcitx-cloudpinyin netease-cloud-music telegram-desktop xterm bomi-git go zip unzip arj lzop cpio unrar thunar xfce4-terminal dia inkscape gimp ttf-wps-fonts anydesk
 ```
 
+
 ### 配置fcitx
 ```
 echo -e "export GTK_IM_MODULE=fcitx\nexport QT_IM_MODULE=fcitx\nexport XMODIFIERS=@im=fcitx">>~/.xprofile
 ```
 
-### 把var目录中某些目录挂载到tmpfs
-```
-echo -e "tmpfs /var/log tmpfs defaults,noatime 0 0\ntmpfs /var/tmp tmpfs defaults,noatime 0 0\ntmpfs /var/spool tmpfs defaults,noatime 0 0"|sudo tee -a /etc/fstab&&sudo mount -a
-```
+
 
 ### 编程开发
 ```
@@ -61,6 +61,9 @@ sudo pacman -Sy --noconfirm atom eclipse-jee openjdk8-doc openjdk8-src
 ### 清理所有的缓存文件
 ```
 sudo pacman -Scc 
+```
+
+> 下面是可选项
 ```
 
 ### 安装网易云音乐
@@ -78,4 +81,37 @@ sudo pacman -S fcitx-sogoupinyin
 export GTK_IM_MODULE=fcitx
 export QT_IM_MODULE=fcitx
 export XMODIFIERS="@im=fcitx"
+```
+
+### 安装 Apache
+```
+sudo pacman -S apache
+#设置开机启动和重启 Apache 服务
+sudo systemctl enable httpd
+sudo systemctl restart httpd
+```
+
+### 安装 Mysql
+```
+sudo pacman -S mysql
+```
+
+### 初始化MariaDB数据目录，没有这步 mysql 就不能用
+```
+sudo mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
+```
+
+### 查看mysql状态
+```
+sudo systemctl status mysqld
+```
+
+### 开机启动mysql服务
+```
+sudo systemctl enable mysqld
+sudo systemctl start mysqld
+```
+### 设置mysql root用户密码
+```
+sudo mysql_secure_installation
 ```

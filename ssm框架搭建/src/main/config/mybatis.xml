@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <!--别名配置-->
+    <typeAliases>
+        <package name="com.ssm.pojo"></package>
+    </typeAliases>
+    <mappers>
+        <!--加载映射文件,和ssm里的接口一致-->
+        <mapper resource="mapper/ManagerMapper.xml"></mapper>
+    </mappers>
+
+</configuration>

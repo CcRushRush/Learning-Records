@@ -1,0 +1,1 @@
+解决中文数据存入数据库出现？？号的问题，在连接的数据库的url后面加入：?useUnicode=true&characterEncoding=UTF-8
