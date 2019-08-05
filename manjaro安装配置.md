@@ -64,9 +64,10 @@ sudo pacman -Scc
 ```
 
 > 下面是可选项
-```
+---
 
 ### 安装网易云音乐
+
 ```
 sudo pacman -S netease-cloud-music
 ```
