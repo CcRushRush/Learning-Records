@@ -1,0 +1,479 @@
+ ##先安装node.js
+ ###vue 1.x或者2.x安装及创建项目
+ 1. npm install --global vue-cli 或者 npm install --global vue-cli
+ 2. vue init webpack 项目名
+ 3. cd 项目名
+ 4. 如果创建失败，就运行 cnpm install / npm install
+ 5. 运行项目：npm run dev
+
+***如果已经安装了vue的1.x或者2.x，想安装3.x，先卸载，npm uninstall vue-cli -g***
+
+###vue3.x安装
+ 1. npm install -g @vue/cli
+ 2. 命令行创建
+    1. 进入相应的文件夹创建项目：vue create demo（demo是项目名）
+    2. 运行：npm run serve
+    3. 编译：npm run build
+ 3. 图形化创建项目：命令行进入文件夹后：vue ui
+
+***创建项目记得引入scss***
+
+#vue主要是以组件方式来构建页面
+引入其他页面
+这是引入components下的HelloWorld.vue
+```vue
+<HelloWorld></HelloWorld>
+<script>
+import HelloWorld from Body.vue
+export default {
+        components: {
+             HelloWorld
+        }
+    }
+</script>
+```
+#提醒：所有的节点要被根节点包含
+
+v-bind:src为绑定属性,v-bind可以简写为:
+
+数据绑定,当输入框改变，上面的name也改变
+```vue
+{{name}}
+ <input type="text" v-model="name">
+ 
+ data() {
+   return {
+        name: "cc",
+   }
+},
+```
+
+todoList判断显示,点击checkbox直接取反
+```vue
+        <input type="text" v-model="message"><button @click="addMes()">添加游戏</button>
+        <br>
+        <h2>login.....</h2>
+        <ul>
+            <li v-for="list in lists" v-if="!list.checked">
+                <input type="checkbox" v-model="list.checked">
+                {{list.title}}
+            </li>
+        </ul>
+        <br>
+        <h2>end.....</h2>
+        <ul>
+            <li v-for="list in lists" v-if="list.checked">
+                <input type="checkbox" v-model="list.checked">
+                {{list.title}}
+            </li>
+        </ul>
+        
+       data() {
+           return {
+                   message:'',
+                       lists:[{checked:false,title:"王者荣耀"},
+                           {checked:false,title:"绝地求生"}]
+                   }
+               },
+       methods:{
+           addMes(){
+                this.lists.push({
+                    checked:false,title:this.message
+                });
+                this.message = '';
+       },
+```
+也可以通过回车键添加
+```vue
+        <input type="text" v-model="message" @keydown="addMes($event)">
+        <br>
+        <h2>login.....</h2>
+        <ul>
+            <li v-for="list in lists" v-if="!list.checked">
+                <input type="checkbox" v-model="list.checked">
+                {{list.title}}
+            </li>
+        </ul>
+        <br>
+        <h2>end.....</h2>
+        <ul>
+            <li v-for="list in lists" v-if="list.checked">
+                <input type="checkbox" v-model="list.checked">
+                {{list.title}}
+            </li>
+        </ul>
+        
+        addMes(e) {
+                        if (e.keyCode == 13) {
+                            this.lists.push({
+                                checked: false, title: this.message
+                            });
+                            this.message = '';
+        
+                        }
+        
+                    },
+```
+封装js---封装本地缓存storage.js
+```js
+// 封装操作localstorage本地存储的方法  ,模块化的文件，var里面的命名没有影响
+var storage={
+
+    set(key,value){
+      localStorage.setItem(key,JSON.stringify(value))
+    },
+    get(key){
+        return JSON.parse(localStorage.getItem(key));
+    },
+};
+
+export default storage; //export default把storage暴露出去
+```
+获取封装的js
+```vue
+import storage from './model/storage' //引入，取别名
+
+storage.set("list",this.lists) //方法使用
+```
+
+在style后面加上scoped表示局部作用域
+
+##父子组件传值
+###父组件给子组件传值  
+父组件调用子组件的时候绑定动态属性 如：<v-header :title="title"></v-header>  
+子组件通过props接收 如：props:['title']或者props:{'title'}
+
+###父组件主动获取子组件的数据和方法  
+父组件挂载子组件为<v-header ref="header"></v-header>，如果需要获取子组件的数据和方法，即：this.$refs.header.data/methods
+
+###子组件主动获取父组件的数据和方法  
+this.$parent.数据  
+this.$parent.方法
+
+##非父子组件传值（不常用）
+ 1.新建一个VueEvent.js文件  引入vue 实例化vue 然后暴露这个实例,如：
+ ```js
+import Vue from 'vue'
+var vue = new Vue()
+export default vue;
+```
+ 2.在要广播的地方引入刚才创建的js实例
+ ```vue
+import VueEvent from '../VueEvent.js'
+```
+ 3.在methods中通过VueEvent.$emit('key',数据)来广播数据
+ 4.在接收数据的地方也要引入创建的js实例，在mounted里通过VueEvent.$on('key',function(){})
+
+
+
+###vue-resource的使用 （建议）(用于链接后台获取数据)
+ 1.在项目下安装 cnpm install vue-install --save
+ 2.在main.js上引用
+ ```js
+import vueResource from 'vue-resource';
+Vue.use(vueResource);
+```
+ 3.用法
+ ```vue
+this.$http.get(url).then(function (response) {
+            console.log(response);
+        },function (err) {
+            console.log(err);
+        })
+```
+###axios的使用(不建议) (用于链接后台获取数据)
+ 1.在项目目录下安装cnpm install axios --save
+ 2.哪里需要就在哪里引用axios:
+ ```vue
+import Axios from 'axios' //引入
+axios.get(url).then((response)=>{
+
+}).catch((err)=>{
+})
+
+```
+
+跨域访问后台数据问题解决，在后台的函数上加上
+```java
+        response.addHeader("Access-Control-Allow-Origin", "*");
+```
+
+###vue-router使用
+ 1. 在项目目录下安装cnpm install vue-router --save
+ 2. 在main.js引入import VueRouter from 'vue-router' 并Vue.use(VueRouter)
+ 3. 配置路由
+    1. 创建组件 引入组件
+    2. 定义路由（建议复制）
+       ```vue
+           const routes = {
+               {path:'/',component:}
+           }
+        ```
+    3. 实例化VueRouter
+        ```vue
+           const router = new VueRouter({
+               routes
+           })
+        ```
+    4. 挂载路由
+        ```vue
+        new Vue({
+          router,
+          render: h => h(App),
+        })
+        ```
+    5. 把<router-view></router-view>放在根组件的App.vue里面
+    整个流程为main.js
+    ```js
+    import Vue from 'vue'
+    import App from './App.vue'
+    import vueResource from 'vue-resource';//用来访问后台数据
+    import VueRouter from 'vue-router'
+    
+    Vue.use(VueRouter);
+    
+    // 创建组件
+    import Header from './components/Header'
+    import Body from './components/Body'
+    // 配置路由
+    const routes = [
+        { path:'/header',component:Header},
+        { path:'/body',component:Body},
+        { path:'*',redirect:'/header'},//当没有任何路由时，默认执行
+    ];
+    
+    // 实例化vueRouter
+    const router = new VueRouter({
+      routes
+    });
+    
+    Vue.use(vueResource);
+    Vue.config.productionTip = false
+    
+    new Vue({
+      el:'#app',
+      router,
+      render: h => h(App),
+    });
+    
+    ```
+###动态路由
+1. 除开routes里面的写法不一样，上面其他都一样，routes里面的组件路径写法为：{ path:'/content/:pid',component:Content},
+2. 需要点击跳转的按钮写法：<router-link :to="'/content/'+list.pid">{{index}}------{{list.title}}</router-link>
+3. 或者传过来参数为：
+    ```vue
+       mounted() {
+            this.pid=this.pid=this.$route.query.pid;//this.$route.params.pid;为获取参数
+            this.getQuestionnaire(this.pid);
+        }
+       ```
+###通过js来跳转路由
+配置路由
+```js
+{ path:'/showMessage',component:ShowMessage,name:'show'}//通过name来跳转到相应的vue
+```
+跳转方法
+不需要传参数
+```vue
+this.$router.push('show');
+```
+需要传参数
+```vue
+<button @click="toContent()">通过js跳转到content</button>
+toContent(){
+               this.$router.push({name:'show'});
+},
+```
+##路由的嵌套
+main.js
+```js
+import Vue from 'vue'
+import App from './App.vue'
+import vueResource from 'vue-resource';
+import VueRouter from 'vue-router'
+
+Vue.use(VueRouter);
+
+// 创建组件
+import Header from './components/Header'
+import Body from './components/Body'
+import Content from './components/Content'
+import ShowMessage from './components/ShowMessage'
+import User from './components/User'
+import UserList from './components/User/UserList'
+import AddUser from './components/User/AddUser'
+import EditUser from './components/User/EditUser'
+import DeleteUser from './components/User/DeleteUser'
+
+// 配置路由
+const routes = [
+    {path: '/header', component: Header},
+    {path: '/body', component: Body},
+    {
+        path: '/user',
+        component: User,
+        children:[
+            {path:'userList',component:UserList},
+            {path:'addUser',component:AddUser},
+            {path:'editUser',component:EditUser},
+            {path:'deleteUser',component:DeleteUser}
+        ]
+    },
+    {path: '/content/:pid', component: Content},
+    {path: '/showMessage', component: ShowMessage},//get方法传值
+    {path: '/showMessage', component: ShowMessage, name: 'show'},//通过name方法跳转路由
+    {path: '*', redirect: '/header'},//当没有任何链接时，默认执行
+];
+
+// 实例化vueRouter
+const router = new VueRouter({
+    // mode:'history',//把hash模式改为history模式
+    routes
+});
+
+Vue.use(vueResource);
+Vue.config.productionTip = false
+
+new Vue({
+    el: '#app',
+    router,
+    render: h => h(App),
+});
+
+```
+页面跳转，App.vue
+```vue
+<template>
+    <div id="app">
+        <!--<button @click="flag = !flag">卸载或者挂载头部组件</button>-->
+        <router-link to="/body">Body</router-link>
+        <router-link to="/header">header</router-link>
+        <router-link to="/user/userList">用户中心</router-link> <!--点击时跳出用户中心，但显示内容的区域为用户列表 -->
+        <!--<button @click="toContent()">通过js跳转到content</button>-->
+        <router-view></router-view>
+    </div>
+</template>
+```
+user.vue，需要在点击链接，子路由显示的区域加入<router-view></router-view>
+```vue
+<template>
+    <div id="user">
+        <div class="user">
+            <div class="left">
+                <ul>
+                    <li><router-link to="/user/userList">用户列表</router-link></li>
+                    <li><router-link to="/user/addUser">增加用户</router-link></li>
+                    <li><router-link to="/user/editUser">修改用户</router-link></li>
+                    <li><router-link to="/user/deleteUser">删除用户</router-link></li>
+                </ul>
+            </div>
+            <div class="right">
+                <router-view></router-view>
+            </div>
+        </div>
+
+    </div>
+</template>
+```
+#基于vue的ui
+##element-ui
+###安装element-ui
+在相应的目录下输入命令行：cnpm install element-ui -S  
+在main.js中引入mint-ui和相应的css代码如下  
+```js
+import ElementUi from 'element-ui';
+import 'element-ui/theme-chalk/index.css'
+Vue.use(ElementUi);
+```
+###用法：https://element.eleme.cn/#/zh-CN/component/quickstart
+###配置file_loader
+如果package.json里的devDependencies没有file-loader就运行命令：cnpm install file-loader --save-dev
+
+##mint-ui(基于移动端)
+###安装mint-ui
+在相应的目录下输入命令行：cnpm install mint-ui -S  
+在main.js中引入mint-ui和相应的css代码如下  
+```js
+import MintUi from 'mint-ui';
+import 'mint-ui/lib/style.css'
+Vue.use(MintUi);
+```
+###具体用法：http://mint-ui.github.io/docs/#/zh-cn2
+
+#vuex（能不用就不用，一般用在大型项目)
+目的：解决不同组件数据共享，数据持久化  
+##vuex的使用
+ 1. 安装vuex:cnpm install vuex --save
+ 2. src新建一个veux的文件夹
+ 3. vuex新建一个store.js
+ 4. 在store.js引入vue、vuex,并且use(vuex)
+     ```js
+    import Vue from 'vue'
+    import Vuex from 'vuex'
+    Vue.use(Vuex);
+    
+    // state在vuex用于存储数据
+    var state={
+        count:1,
+        lists:[]
+    };
+    
+    // mutation里面放的是方法；主要用于改变state里面的数据
+    var mutations={
+        inCount(){
+            ++state.count;
+        },
+        addList(state,data){  //如果该方法有传值，第一个参数为state，第二个参数为数据
+            state.lists = data;
+        }
+    };
+    // 改变state里面的count数据的时候会触发getters里面的方法 获取新值(基本不用)
+    var getters={
+        computedCount:(state)=>{
+            return state.count*2;
+        }
+    }
+    
+    // 基本没用
+    var actions={
+        inMutationsCount(context){  //执行mutation里面的方法，改变state里面的数据
+            context.commit('inCount')
+        }
+    }
+    
+    // 实例化Vuex.Store
+    const store = new Vuex.Store({
+        state,
+        mutations,
+        actions,
+        getters
+    });
+    
+    export default store    //暴露
+    
+
+    ```
+ ###组件使用vuex
+ 在要用到数据共享的地方进行引用和注册
+     ```vue
+     {{this.$store.state.count}} //使用state里面的数据
+     
+    import store from '../../vuex/store.js'
+    
+        export default {
+            name: "addUser",
+            store,//注册
+            methods:{
+                changeCount(){
+                    // this.$store.commit('inCount');  //commit触发mutation
+                    this.$store.dispatch('inMutationsCount'); //dispatch触发action里面的方法
+                }
+            }
+        }
+    ```
+ 
+ 
+ 
+##小型项目用下面两种
+ 1. localstrage  
+ 2. sessionstrage
