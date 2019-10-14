@@ -112,12 +112,14 @@ redis cluster 集群
 	3.开启后台运行：daemonize yes
 	4.启用集群：cluster-enabled yes
 5.为了方便一次性启动所有redis服务器，写一个脚本redis.sh如下:
+```sh
 ./7001/src/redis-server ./7001/redis.conf
 ./7002/src/redis-server ./7002/redis.conf
 ./7003/src/redis-server ./7003/redis.conf
 ./7004/src/redis-server ./7004/redis.conf
 ./7005/src/redis-server ./7005/redis.conf
 ./7006/src/redis-server ./7006/redis.conf
+```
 6.将redis安装包下的redis-trib.rb拷贝到usr/local/bin目前下
 7.启动集群命令：redis-trib.rb create --replicas 1 127.0.0.1:7001 127.0.0.1:7002 127.0.0.1:7003 127.0.0.1:7004 127.0.0.1:7005 127.0.0.1:7006
 8.将redis安装包下src里面的redis-cli拷贝到usr/local/bin目前下
