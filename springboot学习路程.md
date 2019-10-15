@@ -1,4 +1,5 @@
 ##springboot
+
 优点：主需要投入到逻辑业务的代码编写中，快速开发
 
 特点：基于spring的开发提供更快的入门体验，无需xml配置，springboot不是spring的增强，是更快的使用spring，相当于对spring的封装
