@@ -14,13 +14,11 @@ deb http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted universe m
 deb http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted universe multiverse
 deb http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse
 ```
-2. 更新数据源
-apt-get update
+2. 更新数据源:apt-get update
 
-3. 设置 Root 账户密码
-sudo passwd root
-4. 设置允许远程登录 Root
-sudo vim /etc/ssh/sshd_config
+3. 设置 Root 账户密码:sudo passwd root
+4. 设置允许远程登录 Root  
+输入命令:sudo vim /etc/ssh/sshd_config
 ```xml
 #Authentication:
 LoginGraceTime 120
@@ -28,8 +26,7 @@ LoginGraceTime 120
 PermitRootLogin yes                             //加入此行
 StrictModes yes
 ```
-5. 重启服务
-service ssh restart
+5. 重启服务:service ssh restart
 
 ## Linux 安装 Java
 1. 下载jre(属于生产过程，jre版本自行选择，与下面的环境变量的jre版本一致，选择后缀名为：.tar.gz):
