@@ -67,8 +67,8 @@ export PATH=$PATH:$JRE_HOME/bin
 ## Linux 安装 MySQL
 1. 安装 MySQL：apt-get install mysql-server
 2. 配置远程访问：
-  1. 修改配置文件：sudo vim /etc/mysql/mysql.conf.d/mysqld.cnf
-  2. 将bind-address = 127.0.0.1注释掉或者将127.0.0.1改为0.0.0.0
-  3. 重启 MySQL：service mysql restart
-  4. 在服务器上先登录一次MySQL：mysql -u root -p
-  5. 授权 root 用户允许所有人连接：grant all privileges on *.* to 'root'@'%' identified by '你的 mysql root 账户密码';
+    1. 修改配置文件：sudo vim /etc/mysql/mysql.conf.d/mysqld.cnf
+    2. 将bind-address = 127.0.0.1注释掉或者将127.0.0.1改为0.0.0.0
+    3. 重启 MySQL：service mysql restart
+    4. 在服务器上先登录一次MySQL：mysql -u root -p
+    5. 授权 root 用户允许所有人连接：grant all privileges on *.* to 'root'@'%' identified by '你的 mysql root 账户密码';
