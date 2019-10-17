@@ -2,7 +2,7 @@
 *** ubuntu版本选择：Ubuntu server 16.04 LTS
 ## 安装 Ubuntu Server
 具体安装过程请看视频：https://www.bilibili.com/video/av27095828/
-### 安装好后修改数据源
+1. 安装好后修改数据源
 通过一下命令编辑数据源
 ```xml
 vi /etc/apt/sources.list
@@ -14,12 +14,12 @@ deb http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted universe m
 deb http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted universe multiverse
 deb http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse
 ```
-### 更新数据源
+2. 更新数据源
 apt-get update
 
-### 设置 Root 账户密码
+3. 设置 Root 账户密码
 sudo passwd root
-### 设置允许远程登录 Root
+4. 设置允许远程登录 Root
 sudo vim /etc/ssh/sshd_config
 ```xml
 #Authentication:
@@ -28,7 +28,7 @@ LoginGraceTime 120
 PermitRootLogin yes                             //加入此行
 StrictModes yes
 ```
-### 重启服务
+5. 重启服务
 service ssh restart
 
 ## Linux 安装 Java
