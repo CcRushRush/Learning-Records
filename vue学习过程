@@ -1,5 +1,5 @@
- ##先安装node.js
- ###vue 1.x或者2.x安装及创建项目
+ ## 先安装node.js
+ ### vue 1.x或者2.x安装及创建项目
  1. npm install --global vue-cli 或者 npm install --global vue-cli
  2. vue init webpack 项目名
  3. cd 项目名
@@ -8,7 +8,7 @@
 
 ***如果已经安装了vue的1.x或者2.x，想安装3.x，先卸载，npm uninstall vue-cli -g***
 
-###vue3.x安装
+### vue3.x安装
  1. npm install -g @vue/cli
  2. 命令行创建
     1. 进入相应的文件夹创建项目：vue create demo（demo是项目名）
@@ -18,7 +18,7 @@
 
 ***创建项目记得引入scss***
 
-#vue主要是以组件方式来构建页面
+# vue主要是以组件方式来构建页面
 引入其他页面
 这是引入components下的HelloWorld.vue
 ```vue
@@ -32,7 +32,7 @@ export default {
     }
 </script>
 ```
-#提醒：所有的节点要被根节点包含
+# 提醒：所有的节点要被根节点包含
 
 v-bind:src为绑定属性,v-bind可以简写为:
 
@@ -138,19 +138,19 @@ storage.set("list",this.lists) //方法使用
 
 在style后面加上scoped表示局部作用域
 
-##父子组件传值
-###父组件给子组件传值  
+## 父子组件传值
+### 父组件给子组件传值  
 父组件调用子组件的时候绑定动态属性 如：<v-header :title="title"></v-header>  
 子组件通过props接收 如：props:['title']或者props:{'title'}
 
-###父组件主动获取子组件的数据和方法  
+### 父组件主动获取子组件的数据和方法  
 父组件挂载子组件为<v-header ref="header"></v-header>，如果需要获取子组件的数据和方法，即：this.$refs.header.data/methods
 
-###子组件主动获取父组件的数据和方法  
+### 子组件主动获取父组件的数据和方法  
 this.$parent.数据  
 this.$parent.方法
 
-##非父子组件传值（不常用）
+## 非父子组件传值（不常用）
  1.新建一个VueEvent.js文件  引入vue 实例化vue 然后暴露这个实例,如：
  ```js
 import Vue from 'vue'
@@ -166,7 +166,7 @@ import VueEvent from '../VueEvent.js'
 
 
 
-###vue-resource的使用 （建议）(用于链接后台获取数据)
+### vue-resource的使用 （建议）(用于链接后台获取数据)
  1.在项目下安装 cnpm install vue-install --save
  2.在main.js上引用
  ```js
@@ -181,7 +181,7 @@ this.$http.get(url).then(function (response) {
             console.log(err);
         })
 ```
-###axios的使用(不建议) (用于链接后台获取数据)
+### axios的使用(不建议) (用于链接后台获取数据)
  1.在项目目录下安装cnpm install axios --save
  2.哪里需要就在哪里引用axios:
  ```vue
@@ -198,7 +198,7 @@ axios.get(url).then((response)=>{
         response.addHeader("Access-Control-Allow-Origin", "*");
 ```
 
-###vue-router使用
+### vue-router使用
  1. 在项目目录下安装cnpm install vue-router --save
  2. 在main.js引入import VueRouter from 'vue-router' 并Vue.use(VueRouter)
  3. 配置路由
@@ -257,7 +257,7 @@ axios.get(url).then((response)=>{
     });
     
     ```
-###动态路由
+### 动态路由
 1. 除开routes里面的写法不一样，上面其他都一样，routes里面的组件路径写法为：{ path:'/content/:pid',component:Content},
 2. 需要点击跳转的按钮写法：<router-link :to="'/content/'+list.pid">{{index}}------{{list.title}}</router-link>
 3. 或者传过来参数为：
@@ -267,7 +267,7 @@ axios.get(url).then((response)=>{
             this.getQuestionnaire(this.pid);
         }
        ```
-###通过js来跳转路由
+### 通过js来跳转路由
 配置路由
 ```js
 { path:'/showMessage',component:ShowMessage,name:'show'}//通过name来跳转到相应的vue
@@ -284,7 +284,7 @@ toContent(){
                this.$router.push({name:'show'});
 },
 ```
-##路由的嵌套
+## 路由的嵌套
 main.js
 ```js
 import Vue from 'vue'
@@ -375,9 +375,9 @@ user.vue，需要在点击链接，子路由显示的区域加入<router-view></
     </div>
 </template>
 ```
-#基于vue的ui
-##element-ui
-###安装element-ui
+# 基于vue的ui
+## element-ui
+### 安装element-ui
 在相应的目录下输入命令行：cnpm install element-ui -S  
 在main.js中引入mint-ui和相应的css代码如下  
 ```js
@@ -385,12 +385,12 @@ import ElementUi from 'element-ui';
 import 'element-ui/theme-chalk/index.css'
 Vue.use(ElementUi);
 ```
-###用法：https://element.eleme.cn/#/zh-CN/component/quickstart
-###配置file_loader
+### 用法：https://element.eleme.cn/#/zh-CN/component/quickstart
+### 配置file_loader
 如果package.json里的devDependencies没有file-loader就运行命令：cnpm install file-loader --save-dev
 
-##mint-ui(基于移动端)
-###安装mint-ui
+## mint-ui(基于移动端)
+### 安装mint-ui
 在相应的目录下输入命令行：cnpm install mint-ui -S  
 在main.js中引入mint-ui和相应的css代码如下  
 ```js
@@ -398,11 +398,11 @@ import MintUi from 'mint-ui';
 import 'mint-ui/lib/style.css'
 Vue.use(MintUi);
 ```
-###具体用法：http://mint-ui.github.io/docs/#/zh-cn2
+### 具体用法：http://mint-ui.github.io/docs/#/zh-cn2
 
-#vuex（能不用就不用，一般用在大型项目)
+# vuex（能不用就不用，一般用在大型项目)
 目的：解决不同组件数据共享，数据持久化  
-##vuex的使用
+## vuex的使用
  1. 安装vuex:cnpm install vuex --save
  2. src新建一个veux的文件夹
  3. vuex新建一个store.js
@@ -453,7 +453,7 @@ Vue.use(MintUi);
     
 
     ```
- ###组件使用vuex
+ ### 组件使用vuex
  在要用到数据共享的地方进行引用和注册
      ```vue
      {{this.$store.state.count}} //使用state里面的数据
@@ -474,6 +474,47 @@ Vue.use(MintUi);
  
  
  
-##小型项目用下面两种
+## 小型项目用下面两种
  1. localstrage  
  2. sessionstrage
+
+## vue实现下载功能
+ 1. 安装两个依赖
+     1. npm install --save html2canvas // 将页面html转换成图片
+     2. npm install jspdf --save　 // 将图片生成pdf
+     
+ 2. 在需要的vue页面引入
+ ```vue
+     1. import html2Canvas from 'html2canvas'
+        import JsPDF from 'jspdf'
+     2. getPdf () {
+                let title = this.pasType;
+                html2Canvas(document.querySelector('#pdfDom'), {
+                    allowTaint: true
+                }).then(function (canvas) {
+                        var pdf = new JsPDF("p", "mm", "a4") // A4纸，纵向
+                        var ctx = canvas.getContext("2d")
+                        var a4w = 170; var a4h = 257 // A4大小，210mm x 297mm，四边各保留20mm的边距，显示区域170x257
+                        var imgHeight = Math.floor(a4h * canvas.width / a4w) // 按A4显示比例换算一页图像的像素高度
+                        var renderedHeight = 0
+
+                        while (renderedHeight < canvas.height) {
+                            var page = document.createElement("canvas")
+                            page.width = canvas.width
+                            page.height = Math.min(imgHeight, canvas.height - renderedHeight)// 可能内容不足一页
+
+                            // 用getImageData剪裁指定区域，并画到前面创建的canvas对象中
+                            page.getContext("2d").putImageData(ctx.getImageData(0, renderedHeight, canvas.width, Math.min(imgHeight, canvas.height - renderedHeight)), 0, 0)
+                            pdf.addImage(page.toDataURL("image/jpeg", 1.0), "JPEG", 20, 10, a4w, Math.min(a4h, a4w * page.height / page.width)) // 添加图像到页面，保留10mm边距
+
+                            renderedHeight += imgHeight
+                            if (renderedHeight < canvas.height) { pdf.addPage() }// 如果后面还有内容，添加一个空页
+                            // delete page;
+                        }
+                        pdf.save(title)
+                    }
+                );
+                this.visible = false;
+            },
+  ```
+  3. 需要下载的部分加上id="pdfDom"和点击按钮@click="getPdf"
