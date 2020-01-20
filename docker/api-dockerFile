@@ -1,0 +1,60 @@
+FROM maven:3-jdk-8-alpine AS MAVEN_BUILD
+
+ARG LOCAL_MAVEN_MIRROR=http://maven.aliyun.com/nexus/content/groups/public/
+
+# used to edit maven settings.xml
+RUN apk add --no-cache xmlstarlet
+
+# change default local repository location. parent image set ~/.m2 as volume, so data won't be persisted for following build cmds
+RUN xmlstarlet ed --inplace -N 's=http://maven.apache.org/SETTINGS/1.0.0' \
+	--subnode '/s:settings' --type elem -n localRepository -v '${user.home}/m2/repository' \
+	/usr/share/maven/conf/settings.xml
+
+RUN if test -n "$LOCAL_MAVEN_MIRROR"; then \
+	xmlstarlet ed --inplace -N 's=http://maven.apache.org/SETTINGS/1.0.0' \
+		--subnode '/s:settings/s:mirrors' --type elem -n mirror -v '' \
+		/usr/share/maven/conf/settings.xml \
+	&& xmlstarlet ed --inplace -N 's=http://maven.apache.org/SETTINGS/1.0.0' \
+		--subnode '/s:settings/s:mirrors/s:mirror' --type elem -n id -v 'custom-mirror' \
+		/usr/share/maven/conf/settings.xml \
+	&& xmlstarlet ed --inplace -N 's=http://maven.apache.org/SETTINGS/1.0.0' \
+		--subnode '/s:settings/s:mirrors/s:mirror' --type elem -n name -v 'custom-mirror' \
+		/usr/share/maven/conf/settings.xml \
+	&& xmlstarlet ed --inplace -N 's=http://maven.apache.org/SETTINGS/1.0.0' \
+		--subnode '/s:settings/s:mirrors/s:mirror' --type elem -n url -v "$LOCAL_MAVEN_MIRROR" \
+		/usr/share/maven/conf/settings.xml \
+	&& xmlstarlet ed --inplace -N 's=http://maven.apache.org/SETTINGS/1.0.0' \
+		--subnode '/s:settings/s:mirrors/s:mirror' --type elem -n mirrorOf -v 'central' \
+		/usr/share/maven/conf/settings.xml \
+	;fi
+
+# 复制pom.xml文件到指定目录下
+COPY HRSystem/pom.xml /build/
+
+# 服务项目代码到指定目录下
+COPY HRSystem/src /build/src/
+
+# 切换到工作目录
+WORKDIR /build/
+# 将项目打包成jar包
+RUN mvn package
+
+RUN ls
+# ------------------------- 8< -------------------------
+
+FROM openjdk:8-jre
+
+# 这是个特殊->是生成图片验证码的
+RUN apt-get install -y libfontconfig
+VOLUME /tmp
+
+WORKDIR /app
+
+#
+COPY --from=MAVEN_BUILD /build/target/hr.jar /app/
+
+启动项目
+ENTRYPOINT ["java", "-jar", "hr.jar"]
+
+#暴露端口8000，到时候执行docker run 的时候才好把宿主机端口映射到8080
+EXPOSE 8080
