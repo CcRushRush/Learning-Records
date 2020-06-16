@@ -119,6 +119,17 @@ public String upload(@RequestParam("file") MultipartFile file,
 		return "OK";
 	}
 ~~~
+### js获取当前网络信息
+~~~js
+navigator.connection
+
+返回参数解析：
+downlink（网络下行速度）M/s
+effectiveType（网络类型）
+onchange（有值代表网络状态变更）
+rtt（估算的往返时间） ms
+saveData（打开/请求数据保护模式）
+~~~
 
 ###部分参考学习文档
  1. https://www.funtl.com/zh/docs-docker/
