@@ -1,0 +1,6 @@
+js点击其他div关闭指定div
+$(document).mousedown(function(e){
+	if($(e.target).closest("#setViewsBox").length==0){
+		$("#setViewsBox").addClass("hide");
+	}
+})
