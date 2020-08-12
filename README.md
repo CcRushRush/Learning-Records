@@ -135,3 +135,6 @@ saveData（打开/请求数据保护模式）
  1. https://www.funtl.com/zh/docs-docker/
  2. https://www.funtl.com/zh/interview/
  3. https://www.funtl.com/zh/guide/
+ 
+## 本地下载jar包更新到本地maven仓库
+mvn install:install-file -DgroupId=it.sauronsoftware.jave -DartifactId=jave -Dversion=1.02 -Dfile=F:\apache-maven-3.6.3\conf\repo\jave\1.02\jave-1.02.jar -Dpackaging=jar -DgeneratePom=true
