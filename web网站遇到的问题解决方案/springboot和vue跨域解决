@@ -1,0 +1,40 @@
+## 跨域解决
+### spring boot后端
+创建一个配置类，如下
+```java
+/**
+ * 跨域请求支持
+ */
+@Configuration
+public class WebConfiguration extends WebMvcConfigurationSupport {
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowCredentials(true)
+                .allowedHeaders("*")
+                .allowedMethods("*")
+                .allowedOrigins("*");
+    }
+
+    @Override
+    protected void configureAsyncSupport(AsyncSupportConfigurer configurer){
+        configurer.setTaskExecutor(new ConcurrentTaskExecutor(Executors.newFixedThreadPool(3)));
+        configurer.setDefaultTimeout(30000);
+    }
+}
+```
+### vue前端
+1.可以在配置文件vue.config.js上配
+2.在axios的接口上配置，如下
+```js
+const service = axios.create({
+    // baseURL: '/apis/', //本地开发使用代理
+    baseURL:'http://192.168.14.160:8081/', //生产环境，接口路径
+    timeout: 15000,
+    withCredentials: true,                 //跨域请求
+    headers: {
+        'Content-Type': 'application/json;charset=UTF-8'         //接收参数类型
+    }
+});
+```
