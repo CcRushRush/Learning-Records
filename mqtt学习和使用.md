@@ -16,6 +16,24 @@
     private String userName = "stonegeek";   //账号
     private String passWord = "123456";      //密码
 ~~~
+
+## jar包依赖
+```xml
+ <!--mqtt-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-integration</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.integration</groupId>
+            <artifactId>spring-integration-stream</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.integration</groupId>
+            <artifactId>spring-integration-mqtt</artifactId>
+        </dependency>
+```
+
 ## mqtt服务端
 ~~~java
 package bsit.mqtt.demo.one_way;  
