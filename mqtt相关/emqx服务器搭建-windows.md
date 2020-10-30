@@ -1,5 +1,11 @@
 ## Windows搭建集群+nginx负载均衡（参考，不建议）：https://blog.csdn.net/weixin_44032502/article/details/107972171
 
+### 本地搭建部署emqx：
+1. Emqx下载地址：https://www.emqx.io/cn/downloads#broker
+2. 进入emqx解压包的bin目录，
+	1. 启动emqx服务器：./emqx start
+	2. 停止emqx服务器：./emqx stop
+
 ### 每一个emqx节点修改./etc/emqx.conf
 1. 集群发现模式，静态发现，启动后不用输加入集群命令
 cluster.discovery = static 
